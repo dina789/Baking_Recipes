@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="rv_ingredients" type="id">rv_ingredients</item>
+    <item name="rv_steps" type="id">rv_steps</item>
+</resources>

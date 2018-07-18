@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dina\'s_Recipes</string>
+    <string name="Ingredients_title">TextView</string>
+    <string name="Steps_title">Steps_title</string>
+</resources>
