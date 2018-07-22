@@ -1,6 +1,5 @@
 package com.example.dodo.dinas_recipes.Fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -92,13 +91,6 @@ public class Recipe_Detail_Fragment extends Fragment implements StepsOfRecipesAd
 
     }
 
-    public void setIngredientsModelList(ArrayList<Ingredients> ingredientsModelList) {
-        this.ingredientsModelList = ingredientsModelList;
-    }
-
-    public void setStepsModelList(List<Steps> stepsModelList) {
-        this.stepsModelList = stepsModelList;
-    }
 
     public interface  OnStepClickListener{
         void OnStepitemClicked(Bundle bundle);

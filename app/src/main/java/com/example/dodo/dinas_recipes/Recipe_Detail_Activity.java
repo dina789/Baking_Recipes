@@ -1,8 +1,8 @@
 package com.example.dodo.dinas_recipes;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.dodo.dinas_recipes.Fragments.Recipe_Detail_Fragment;
@@ -60,10 +60,10 @@ public class Recipe_Detail_Activity extends AppCompatActivity implements Recipe_
 
 
             videoAndDescriptionFragment = new Video_Description_Fragment();
-            Bundle bundleVideo = new Bundle();
-            bundleVideo.putString("Step URL",stepsArrayList.get(0).getVideoURL());
-            bundleVideo.putString("Step Description",stepsArrayList.get(0).getDescription());
-            videoAndDescriptionFragment.setArguments(bundleVideo);
+                //   Bundle bundleVideo = new Bundle();
+                //   bundleVideo.putString("Step URL",stepsArrayList.get(0).getVideoURL());
+                //  bundleVideo.putString("Step Description",stepsArrayList.get(0).getDescription());
+                //  videoAndDescriptionFragment.setArguments(bundleVideo);
 
             android.support.v4.app.FragmentTransaction videoFragmentTransaction = getSupportFragmentManager().beginTransaction();
             videoFragmentTransaction.add(R.id.fragment_video_description,videoAndDescriptionFragment).commit();

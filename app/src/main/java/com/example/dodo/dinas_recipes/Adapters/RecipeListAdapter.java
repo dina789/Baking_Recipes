@@ -19,9 +19,9 @@ import butterknife.ButterKnife;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecyclerViewHolder> {
 
+    private Context mContext;
+    private ArrayList<Recipes> recipes;
     final private ListItemClickListener OnItemClickListener;
-    ArrayList<Recipes> recipes;
-    Context mContext;
     private ListItemClickListener recipeListOnClickListenerInteface;
 
 
@@ -31,7 +31,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        Context context = parent.getContext();
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.recipes_items, parent, false);
         return new RecyclerViewHolder(view);
@@ -94,10 +94,15 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     }
 
-    public void setRecipeModelList(ArrayList<Recipes> recipes) {
-        this.recipes = recipes;
+    public void setRecipeModelList(ArrayList<Recipes> recipesList, Context context) {
+
+        mContext = context;
+
+
+        recipes = recipesList;
         notifyDataSetChanged();
     }
+
 
     /**
      * The interface that receives onClick messages.

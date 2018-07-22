@@ -4,44 +4,46 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toolbar;
+import android.util.Log;
 
 import com.example.dodo.dinas_recipes.Adapters.RecipeListAdapter;
-import com.example.dodo.dinas_recipes.Fragments.Recipe_Detail_Fragment;
 import com.example.dodo.dinas_recipes.Models.Recipes;
+import com.example.dodo.dinas_recipes.Retrofit.RecipeInterface;
+import com.example.dodo.dinas_recipes.Retrofit.RetroBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+import static java.security.AccessController.getContext;
 
 
-public class RecipeActivity extends AppCompatActivity implements RecipeListAdapter.ListItemClickListener{
+public class RecipeActivity extends AppCompatActivity implements RecipeListAdapter.ListItemClickListener {
+    private static final String BASE_URL = "http://go.udacity.com/android-baking-app-json";
+    private static final String TAG = RecipeActivity.class.getSimpleName();
+    public static Retrofit retrofit = null;
     ArrayList<Recipes> recipeModel;
     @BindView(R.id.recipe_list)
     RecyclerView recyclerView;
     RecipeListAdapter recipeListAdapter;
-
     ArrayList<Recipes> recipeArrayList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
         ButterKnife.bind(this);
+
+
         //use a fragment manager and transaction to add the fragment to screeen (adds fragment to specifed container)
 /*
         if (savedInstanceState == null) {
@@ -68,31 +70,33 @@ public class RecipeActivity extends AppCompatActivity implements RecipeListAdapt
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-//use volley library to send requests:
-//https://github.com/dina789/Web1/blob/master/app/src/main/java/com/example/pc/web/MainActivity.java
+        RecipeInterface iRecipe = RetroBuilder.Retrieve();
+        Call<ArrayList<Recipes>> recipe = iRecipe.getRecipe();
 
-//https://github.com/dina789/FinalProject-master-master-master-master/blob/master/app/src/main/java/com/example/zizo/myapplication/MainActivity.java
+        recipe.enqueue(new Callback<ArrayList<Recipes>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Recipes>> call, Response<ArrayList<Recipes>> response) {
 
 
+                ArrayList<Recipes> recipes = response.body();
+
+                recipeListAdapter.setRecipeModelList(recipes, getContext());
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Recipes>> call, Throwable t) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString());
+            }
+        });
     }
-
-
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-    }
-
-
-    //connectivity network info
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connectivityManager != null;
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
 
@@ -107,8 +111,16 @@ public class RecipeActivity extends AppCompatActivity implements RecipeListAdapt
         startActivity(intent);
 
 
+    }
 
+    //connectivity network info
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }
 
@@ -152,6 +164,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeListAdapt
  * https://github.com/diamondCollector/BakingApp
  * https://discussions.udacity.com/t/retrofit-loading-intial-list-of-recipes/725377/7
  * <p>
+ * singleton
+ * https://code.tutsplus.com/tutorials/android-design-patterns-the-singleton-pattern--cms-29153
+ * <p>
+ * //using Volley library:
+ * https://medium.com/android-grid/how-to-fetch-json-data-using-volley-and-put-it-to-recyclerview-android-studio-383059a12d1e
  * for implementation reference:
  * http://www.i-programmer.info/professional-programmer/accreditation/10908-insiders-guide-to-udacity-android-developer-nanodegree-part-3-the-making-of-baking-app.html
  */

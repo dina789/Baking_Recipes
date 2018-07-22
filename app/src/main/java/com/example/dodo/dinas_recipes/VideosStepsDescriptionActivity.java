@@ -2,17 +2,21 @@ package com.example.dodo.dinas_recipes;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Window;
 import android.view.WindowManager;
+
 import com.example.dodo.dinas_recipes.Fragments.Video_Description_Fragment;
 import com.example.dodo.dinas_recipes.Models.Steps;
 
+
+//Activity that will contain the video playing fragment on Phone. On tablet it will be empty
+
+
 public class VideosStepsDescriptionActivity extends AppCompatActivity {
-    Video_Description_Fragment videoAndDescriptionFragment;
+    Video_Description_Fragment stepDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +37,7 @@ public class VideosStepsDescriptionActivity extends AppCompatActivity {
         }
 
 
-
-
-
+        //create a new fragment only when an instance of fragment does not exists
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -43,7 +45,7 @@ public class VideosStepsDescriptionActivity extends AppCompatActivity {
             Bundle bundle = intent.getBundleExtra(Intent.EXTRA_TEXT);
             Steps stepsModel = (Steps) bundle.getSerializable("ser");
 
-            Video_Description_Fragment stepDetailFragment = new   Video_Description_Fragment();
+            stepDetailFragment = new Video_Description_Fragment();
             stepDetailFragment.setStepsModel(stepsModel);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_video_description, stepDetailFragment)

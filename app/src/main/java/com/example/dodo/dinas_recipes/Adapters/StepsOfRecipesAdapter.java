@@ -44,7 +44,9 @@ public class StepsOfRecipesAdapter extends RecyclerView.Adapter<StepsOfRecipesAd
 
     @Override
     public int getItemCount() {
-        if (stepsModelList == null){return  -1; };
+        if (stepsModelList == null) {
+            return -1;
+        }
         return stepsModelList.size();
     }
 
